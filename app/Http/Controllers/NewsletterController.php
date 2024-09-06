@@ -9,6 +9,12 @@ use Validator;
 
 class NewsletterController extends Controller
 {
+
+    public function index(){
+        $emails = Newsletter::all();
+        return response()->json(['emails'=>$emails], 200);
+    }
+
     public function subscribe(Request $request){
 
         // on valide les données récupérées
