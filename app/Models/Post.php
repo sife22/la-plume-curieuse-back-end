@@ -11,8 +11,14 @@ class Post extends Model
 
     protected $table = "post";
 
+    // Pour récupérer toutes les catégories du post.
     public function categories(){
         return $this->belongsToMany(Category::class, 'category_post');
+    }
+
+    // Pour récupérer tous les commentaires du post. 
+    public function comments(){
+        return $this->hasMany(Comment::class);
     }
 
 }

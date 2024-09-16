@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Post;
 use App\Models\User;
 use Hash;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+
+    public function index(){
+        $categories = Category::all()->count();
+        $posts = Post::all()->count();
+        $users = User::all()->count();
+        return response()->json(['categories'=>$categories, 'posts'=>$posts, 'users'=>$users], 200);
+    }
     public function login(Request $request){
 
         $request->validate([

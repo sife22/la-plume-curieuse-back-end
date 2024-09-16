@@ -10,6 +10,7 @@ class Category extends Model
     use HasFactory;
     protected $table = "category";
 
+    // Pour récupérer les posts d'une catégories spécifique.
     public function posts(){
         return $this->belongsToMany(Post::class, 'category_post');
     }

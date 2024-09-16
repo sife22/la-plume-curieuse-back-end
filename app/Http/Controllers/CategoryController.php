@@ -21,7 +21,7 @@ class CategoryController extends Controller
         return response()->json(['message' => 'Catégorie non trouvée'], 404);
     }
     
-    $posts = $category->posts;
+    $posts = $category->posts()->paginate(1);
     return response()->json(['posts' => $posts], 200);
     }
 
@@ -32,9 +32,10 @@ class CategoryController extends Controller
     
     public function store(Request $request){
         
+        
         $request->validate([
             'name'=>'required|max:30|unique:category,name',
-            'description'=>'required|max: 200'
+            'description'=>'required|max:200'
         ],[
             'name.required'=>"Le nom est requis",
             'name.max'=>"Le nom est très long",
@@ -42,6 +43,13 @@ class CategoryController extends Controller
             'description.required'=>"La description est requise",
             'description.max'=>"La description est très longue",
         ]);
+
+         // On doit vérifier si le slug est déjà existant, déjà fait par la fonction validate au dessus
+        //  if(Category::where('slug', Str::slug($request['name']))->first()){
+        //     return response()->json(['message'=>'Cette catégorie est déjà existante',], 400);
+        // };
+
+       
         
         $new_category = new Category();
         $new_category->name = $request['name'];
