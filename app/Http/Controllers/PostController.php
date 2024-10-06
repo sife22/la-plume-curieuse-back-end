@@ -136,6 +136,7 @@ class PostController extends Controller
 
     public function delete($slug){
         $post = Post::where('slug', $slug)->firstOrFail();
+        Gate::authorize('delete-post', $post);
         File::delete(public_path('/uploads/posts/picture/' . $post->picture));
         $post->delete();
         return response()->json(['message'=>"Vous avez supprimé l'article avec succès", 'post'=>$post], 200);

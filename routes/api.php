@@ -71,7 +71,7 @@ Route::post('/update-post/{slug}', [PostController::class, 'update'])->middlewar
 Route::get('/get-post/{slug}', [PostController::class, 'show']);
 Route::post('/add-post', [PostController::class, 'store'])->middleware('auth:sanctum');
 Route::put('/add-view/{slug}', [PostController::class, 'addView']);
-Route::delete('/delete-post/{slug}', [PostController::class, 'delete']);
+Route::delete('/delete-post/{slug}', [PostController::class, 'delete'])->middleware('auth:sanctum');
 
 // On définit les routes de commentaire.
 Route::get('/get-comments/{slug}', [CommentController::class, 'index']);
