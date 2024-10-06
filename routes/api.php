@@ -27,25 +27,25 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // On a utilisé cette route pour crée les utilisateurs.
-// Route::post('/register', function(Request $request){
-//     $new_user = new User();
-//     $new_user->name = $request['name'];
-//     $new_user->username = $request['username'];
-//     $new_user->phone = $request['phone'];
-//     $new_user->role = 'admin';
-//     if ($request->hasFile('picture')) {
-//         $extension_image = $request['picture']->getClientOriginalExtension();
-//         $name_picture = microtime(true) . '.' . $extension_image;
-//         $chemin = 'uploads/users/picture';
-//         $request['picture']->move($chemin, $name_picture);
-//         $new_user->picture = $name_picture;
-//     }
-//     $new_user->email = $request['email'];
-//     $new_user->password = Hash::make($request['password']);
-//     $new_user->created_at = Carbon::now();
-//     $new_user->save();
-//     return response()->json(['message'=>'Votre nouvel compte a été bien crée'], 201);
-// });
+Route::post('/register', function(Request $request){
+    $new_user = new User();
+    $new_user->name = $request['name'];
+    $new_user->username = $request['username'];
+    $new_user->phone = $request['phone'];
+    $new_user->role = 'admin';
+    if ($request->hasFile('picture')) {
+        $extension_image = $request['picture']->getClientOriginalExtension();
+        $name_picture = microtime(true) . '.' . $extension_image;
+        $chemin = 'uploads/users/picture';
+        $request['picture']->move($chemin, $name_picture);
+        $new_user->picture = $name_picture;
+    }
+    $new_user->email = $request['email'];
+    $new_user->password = Hash::make($request['password']);
+    $new_user->created_at = Carbon::now();
+    $new_user->save();
+    return response()->json(['message'=>'Votre nouvel compte a été bien crée'], 201);
+});
 
 // On définit les routes d'authentification.
 Route::post('/login', [AuthController::class, 'login']);

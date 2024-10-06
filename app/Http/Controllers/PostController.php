@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Auth;
 use DB;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Str;
 
 class PostController extends Controller
@@ -25,10 +27,15 @@ class PostController extends Controller
 
     public function edit($slug){
         $post = Post::with('categories')->where('slug', $slug)->firstOrFail();
+        Gate::authorize('update-post', $post);
         return response()->json(['post'=>$post], 200);
     }
 
     public function update(Request $request, $slug){
+
+        $post = Post::with('categories')->where('slug', $slug)->firstOrFail();
+        Gate::authorize('update-post', $post);
+
         $request->validate([
             'title'=>'max:200',
             'summary'=>'max: 200',
@@ -37,7 +44,6 @@ class PostController extends Controller
             'summary.required'=>"La description est requise",
         ]);
 
-        $post = Post::with('categories')->where('slug', $slug)->firstOrFail();
 
         if(Category::find($request['categoryId'])){
             DB::table('category_post')
